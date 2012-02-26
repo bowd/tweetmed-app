@@ -6,12 +6,11 @@
 var express = require('express')
   , sio = require('socket.io')
   , browserify = require('browserify')
-  , jadeify = require('jadeify')
+  , bj = require('browserijade')
   , routes = require('./routes')
-  , bundle = browserify().use(jadeify(__dirname + '/views/')).addEntry(__dirname + '/client-app.js');
+  , bundle = browserify().use(bj(__dirname + '/views/')).addEntry(__dirname + '/client-app.js');
 
 
-bundle.use(jadeify(__dirname + '/views'));
 
 var app = module.exports = express.createServer();
 
@@ -50,8 +49,14 @@ console.log("Express server listening on port %d in %s mode", app.address().port
 
 var io = sio.listen(app);
 
+function cleanString(str) {
+  return str.replace(/[.,\[\]\(\)!?]/g, ' ');
+}
+
 io.sockets.on('connection', function (socket) {
-  socket.on('test', function (msg) {
-    socket.emit('ret_test', { msg: 'received: '+msg });
+  socket.on('search', function (data) {
+    socket.emit('ret-search', { entities: cleanString(data.phrase).split(' ')
+                                                                  .filter(function (x) { return x !== ""; })
+                                                                  .map(function(x) { return x.trim(); })  });
   });
 });

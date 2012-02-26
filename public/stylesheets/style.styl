@@ -2,11 +2,25 @@ bround(n)
   -moz-border-radius: n
   -webkit-border-radius: n
 
+fixurl(url)
+  url(url)
+
 body
-  padding: 50px
+  padding: 20px 50px 20px 50px
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif
 a
   color: #00B7FF
+
+div.log 
+  position: absolute
+  top: 5px
+  left: 5px
+  width: 150px
+  height: 600px
+  padding: 10px
+  font-size: 12px
+  bround(5px)
+  background: #dedede
 
 div.content
   width: 900px
@@ -14,9 +28,11 @@ div.content
 
 div.header
   width: 900px
+  height: 117px
   .title
     float: left
     width: 200px
+    height: 117px
   .search-bar
     width: 650px
     height: 47px
@@ -26,36 +42,34 @@ div.header
     bround(10px)
 
 .search-bar > input
-  width: 550px
-  height: 45px
+  &[type='text']
+    width: 550px
+    height: 45px
+  &[type='submit']
+    font-size: 30px
+    margin-left: 10px
+    height: 47px
+    cursor: pointer
+    &:hover
+      background: #497A6A
+    &:active
+      background: white
+      color: #497A6A
   color: white
   background: #272D38
   font-size: 20px
   padding-left: 10px
-  border: none
+  padding-right: 10px
+  border: 0px
   bround(10px)
 
-.search-bar > span
-  background: #272D38
-  padding: 5px 10px 5px 10px
-  margin-left: 20px
-  color: white
-  font-size: 31px
-  bround(10px)
-  cursor: pointer
-  &:hover
-    background: #497A6A
-  &:active
-    background: white
-    color: #497A6A
+div.clear
+  clear: both
 
 div.tooltip-header
-  position: absolute
-  top: 153px
-  left: 444px
-  width: 430px
-  height: 80px
+  margin-top: -27px
+  margin-left: 192px
   font-size: 18px
-  padding-top: 70px
-  padding-left: 70px
-  background: url('/images/tooltip1.png')
+  padding: 70px
+  width: 360px
+  background: fixurl('/images/tooltip1.png')

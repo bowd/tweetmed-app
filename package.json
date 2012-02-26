@@ -7,5 +7,9 @@
     , "stylus": ">= 0.0.1"
     , "jade": ">= 0.0.1"
     , "socket.io": ">= 0.8.7"
+    , "browserify": ">= 1.9.3"
+    , "browserijade": ">= 0.3.0"
+    , "jquery": ">= 1.6.3"
+    , "jquery-browserify": ">= 1.6.2"
   }
 }

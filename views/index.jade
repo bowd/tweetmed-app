@@ -5,8 +5,8 @@ div(class="content")
       p Twitter comunity based medical information.
     div(class='search-bar')
       input(id='search-term', type='text')
-      span(id='go')
-        | GO
-  div(class='tooltip-header')
-    | To start just search for a term or phrase.
-  div(id='test')
+      input(id='search', type='submit', value='GO', func='startSearch', arg="{'x': 'mama'}" )
+    div(class='clear')
+    div(class='tooltip-header')
+      | To start just search for a term or phrase.
+div(class='log')
