@@ -8,7 +8,22 @@ var express = require('express')
   , browserify = require('browserify')
   , bj = require('browserijade')
   , routes = require('./routes')
-  , bundle = browserify().use(bj(__dirname + '/views/')).addEntry(__dirname + '/client-app.js');
+  , bundle = browserify().use(bj(__dirname + '/views/')).addEntry(__dirname + '/client-app.js')
+  , redis = require("redis")
+  , redis_pubsub = redis.createClient()
+  , redis_publisher = redis.createClient();
+
+redis_pubsub.on("error", function (err) {
+    console.log("Error " + err);
+});
+
+redis_publisher.on("error", function (err) {
+    console.log("Error " + err);
+});
+
+
+redis_pubsub.auth('jredis');
+redis_publisher.auth('jredis');
 
 
 
@@ -53,10 +68,23 @@ function cleanString(str) {
   return str.replace(/[.,\[\]\(\)!?]/g, ' ');
 }
 
+var socket_from_id = [];
+
+redis_pubsub.on("message", function(channel, message) {
+  var msg = JSON.parse(message);
+  console.log("Got back from term extraction: "+msg);
+  socket_from_id[msg.socked_id].emit("search-ret", {entities: msg.entities});
+});
+
+redis_pubsub.subscribe("extract-terms-ret");
+
+
 io.sockets.on('connection', function (socket) {
+  socket_from_id[socket.id] = socket;
   socket.on('search', function (data) {
-    socket.emit('ret-search', { entities: cleanString(data.phrase).split(' ')
-                                                                  .filter(function (x) { return x !== ""; })
-                                                                  .map(function(x) { return x.trim(); })  });
+    console.log("pula");
+    var msg =  JSON.stringify({phrase: data.phrase, socket_id: socket.id});
+    console.log("Sending for term extraction: "+msg);
+    redis_publisher.publish("extract-terms", msg);
   });
 });

@@ -1,6 +1,6 @@
 var $ = require('jquery-browserify');
 var bj = require('browserijade').renderFile;
-var socket = io.connect('http://localhost:3000');
+var socket = io.connect('http://gnode1.mib.man.ac.uk/people/DumitruB');
 
 /* Function definitions for the entities */
 
@@ -20,7 +20,7 @@ functions = {
 };
 
 /* Socket handled returns */
-socket.on('ret-search', function(data) {
+socket.on('search-ret', function(data) {
   log(String(data.entities));
 });
 
