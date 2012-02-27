@@ -9,7 +9,7 @@ div.log {
   position: absolute;
   top: 5px;
   left: 5px;
-  width: 150px;
+  width: 300px;
   height: 600px;
   padding: 10px;
   font-size: 12px;
@@ -75,5 +75,5 @@ div.tooltip-header {
   font-size: 18px;
   padding: 70px;
   width: 360px;
-  background: url("/people/DumitruB//images/tooltip1.png");
+  background: url("/images/tooltip1.png");
 }

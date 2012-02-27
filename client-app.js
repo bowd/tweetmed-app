@@ -1,6 +1,6 @@
 var $ = require('jquery-browserify');
 var bj = require('browserijade').renderFile;
-var socket = io.connect('http://gnode1.mib.man.ac.uk/people/DumitruB');
+var socket = io.connect('http://localhost:3000/');
 
 /* Function definitions for the entities */
 
@@ -15,13 +15,14 @@ var general_functions = {
 /* Functions object for all clickable html entities */
 functions = {
   'startSearch': function() {
-    socket.emit('search', {phrase: $("input#search-term").val()});
+    var q = $("input#search-ter,").val();
+    if (q !== "") { socket.emit('search', {phrase: $("input#search-term").val()}); }
   }
 };
 
 /* Socket handled returns */
 socket.on('search-ret', function(data) {
-  log(String(data.entities));
+  log(JSON.stringify(data, null, '\t'));
 });
 
 
@@ -43,7 +44,7 @@ $("*[func]").click(function(e) {
   var funcString = $(e.target).attr('func');
   var attrObject = function(attrString) {
     if (attrString !== undefined && attrString != 'null')
-      return eval( '(' + attrString +')' );
+    { return eval('('+attrString+')'); }
     return undefined; 
   }($(e.target).attr('arg'));
 
